@@ -1,0 +1,7 @@
+{
+  "name": "sevaBharati",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,45 @@
+.container {
+    width: 100%;
+    // background-color: green;
+    overflow-x: visible!important;
+    // ::-webkit-scrollbar {
+    //   display: none;
+    // }
+    .scroll {
+      overflow: auto;
+    }
+  }
+
+  .scroll-zoom-wrapper {
+    white-space: nowrap;
+}
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  
+    .card {
+      display: inline-block;
+    }
+  }
+
+  ion-card {
+    border: 1px solid #7b4f81;
+    background: linear-gradient(to bottom,  #e7e0e1 0%,#bcc5ec 100%); 
+
+
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7e0e1', endColorstr='#bcc5ec',GradientType=0 ); ;
+    border-radius: 25px;
+  overflow: hidden;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3); // rgba(0, 0, 0, 0.3)
+ }
+
+ ion-content{
+  --ion-background-color: linear-gradient(to bottom,  #984851 0%,#604771 100%); 
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#984851', endColorstr='#604771',GradientType=0 );
+  }
+
+  ion-item{
+    --ion-background-color: transparent;
+ }

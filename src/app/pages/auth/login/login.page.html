@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <!-- <ion-button color="light" slot="start" (click)="dismissLogin()">Close</ion-button> -->
+    <ion-title class="ion-text-center">Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding background">
+  <div class="ion-text-center">
+    <img src="../../../../assets/images/Logo_new.png" />
+  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <form (ngSubmit)="onLogin()" [formGroup]="loginForm" style="color: white; padding-top: 16%">
+
+    <ion-item color="transparent">
+      <ion-label position="floating" style="color: white">Mobile Number</ion-label>
+      <!-- <ion-input type="text" id="userName" formControlName="loginName" [(ngModel)]="userName" (input)="vlidateSpace($event)" ></ion-input>  -->
+      <ion-input type="tel" id="userName" maxlength="10" [(ngModel)]="userName" 
+        formControlName="loginName" (input)="vlidateSpace($event)"></ion-input>
+    </ion-item>
+    <!-- <div *ngIf="f.loginName.touched && f.loginName.errors">
+      <div *ngIf="f.loginName.errors?.pattern" style="color: red">Enter Valid Mobile Number</div>
+    </div> -->
+
+    <!-- <ion-item color="transparent" [hidden]=!isOtpShow>
+      <ion-label position="floating" style="color: white">Password</ion-label>
+      <ion-input type="password" formControlName="password" [(ngModel)]="pass"></ion-input>
+    </ion-item>
+    <ion-item color="transparent" [hidden]=isOtpShow>
+      <ion-label position="floating" style="color: white">OTP</ion-label>
+      <ion-input formControlName="otp" [(ngModel)]="otp" inputmode="numeric" maxlength="4"></ion-input>
+    </ion-item> -->
+    <!-- <ion-icon name="eye" item-right (click)="toggleTextPassword()"></ion-icon> -->
+    <ion-item color="transparent">
+      <ion-label position="floating" style="color: white">
+        <strong>*</strong>State
+      </ion-label>
+      <ion-select formControlName="stateID" interface="popover">
+        <ion-select-option value="">Select</ion-select-option>
+        <ion-select-option *ngFor="let item of stateList" [value]="item.id">{{item.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- <div class="row" style="padding: 3%">
+       <ion-item color="transparent">
+        <ion-label slot="end" style="color: white">Login with OTP</ion-label>
+        <ion-toggle slot="end" name="apple" color="secondary"></ion-toggle>
+      </ion-item> 
+       <div class="col-lg-6 pt-10 ">
+        <label style="color: white">Login with OTP </label>
+        <ion-toggle slot="start" name="apple" color="secondary" (ionChange)="loginWithOtp($event)"></ion-toggle>
+      </div> 
+      <div class="col-12 col-lg-12 col-12 pt-10 ion-text-right">
+        <a class="" (click)="forgotPswdModal()" style="color: white">Forgot Password ?</a>
+      </div>
+    </div> -->
+    <!-- <a class="" text-right (click)="forgotPswdModal()" >Forgot Password?</a> -->
+    <div class="row" style="padding: 3%">
+      <!-- <div class="col-6">
+        <ion-button type="button" expand="full" color="primary" [disabled]="userName=='' || isOtpShow || isTimerStart"
+          (click)="generateOtp()">Generate OTP</ion-button>
+      </div> -->
+      <div class="col-12">
+        <!-- <ion-button type="submit" expand="full" color="primary"
+          [disabled]="loginForm.invalid || (pass=='' && otp=='') ">Login</ion-button> -->
+        <ion-button type="submit" expand="full" color="primary"
+          [disabled]="loginForm.invalid">Login</ion-button>
+      </div>
+    </div>
+  </form>
+  <!-- <p text-center style="color: white">Don't have a account?</p>
+  <ion-button expand="full" color="danger" (click)="registerModal()">Register</ion-button> -->
+  <br />
+  <div class="row">
+    <div class="col-12 col-lg-12 col-12  register  pt-3 ion-text-center">
+      <span>Don't have an account, </span>
+      <a class="" (click)="registerModal()">Register here ?</a>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-12 col-lg-12 col-12  register  pt-3 ion-text-center">
+      <span>For Plasma </span>
+      <a class="" (click)="plasmaModal()">Register here ?</a>
+    </div>
+  </div>
+</ion-content>
+<ion-footer color="primary">
+  <div class="ion-text-center footer pt-3" style="background-color: #555bb3">
+    <span>powered by </span>
+    <img class="" src="../assets/images/dipl1.png" style="width: 15%; height: auto;" />
+    <span style="text-align: right;">Version : {{rakthadaanAppVersion}} </span>
+  </div>
+</ion-footer>

@@ -1,0 +1,42 @@
+.container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+      width: 100%;
+      // background-color: green;
+      overflow-x: visible!important;
+      // ::-webkit-scrollbar {
+      //   display: none;
+      // }
+      .scroll {
+        overflow: auto;
+      }
+    }
+    .headerStyle{
+      border: 1px solid darkgrey;font-weight: bold;background-color:#9999ff;color:white;
+    }
+    .bodyStyle{
+      border: 1px solid darkgrey;border-bottom:1px;border-left:1px; font-size:12px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    ion-card {
+      border: 1px solid #7b4f81;
+      background: linear-gradient(to bottom,  #e7e0e1 0%,#bcc5ec 100%); 
+  
+  
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7e0e1', endColorstr='#bcc5ec',GradientType=0 ); ;
+      border-radius: 25px;
+    overflow: hidden;
+      box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3); // rgba(0, 0, 0, 0.3)
+   }
+  
+   ion-content{
+    --ion-background-color: linear-gradient(to bottom,  #984851 0%,#604771 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#984851', endColorstr='#604771',GradientType=0 );
+    }
+  
+    ion-item{
+      --ion-background-color: transparent;
+   }
+
+  
+    

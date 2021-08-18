@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="padding">
+        <ion-item><ion-label>Name</ion-label><ion-label>{{data.requestobject.requester.firstName + ' '+ data.requestobject.requester.lastName }}</ion-label></ion-item> 
+        <ion-item><ion-label>Mobile</ion-label><ion-label>{{data.requestobject.requester.mobile}}</ion-label></ion-item> 
+        <ion-item><ion-label>Facility</ion-label><ion-label>{{data.facility.name}}</ion-label></ion-item> 
+        <ion-item><ion-label>Facility Details</ion-label><ion-label>{{data.facility.address + ',' + data.facility.city}}</ion-label></ion-item> 
+        <ion-item><ion-label>Units</ion-label><ion-label>{{data.units}}</ion-label></ion-item> 
+        <ion-item><ion-label>Date/Time</ion-label><ion-label>{{data.requestdatetime | date: 'dd-MMM-yyyy, h:mm a'}}</ion-label></ion-item> 
+        <ion-item><ion-label>Blood Group</ion-label><ion-label>{{data.requestobject.requester.bloodGroup}}</ion-label></ion-item> 
+        <ion-item><ion-label>Request Type</ion-label><ion-label>{{data.requestobject.requestType == 1 ? 'Blood' : 'Platelets'}}</ion-label></ion-item> 
+        <ion-item><ion-label *ngIf="data.status == 3">Status</ion-label>
+        <ion-label *ngIf="data.status == 4">Status</ion-label>
+          <ion-label *ngIf="data.status == 3">Accepted</ion-label>
+          <ion-label *ngIf="data.status == 4">Donated</ion-label>
+          <ion-label *ngIf="data.status == 1" class="ion-text-center">
+              <ion-button fill="outline" (click)="statusChange(2,data)">Sorry</ion-button>&nbsp;&nbsp;
+              <ion-button fill="outline" (click)="statusChange(3,data)">Accept</ion-button>
+          </ion-label>
+        </ion-item> 
+</ion-content>

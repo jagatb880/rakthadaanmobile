@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">
+      Edit Request
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+        <ion-card>
+          <ion-card-content>
+            <form (ngSubmit)="save()" padding-right [formGroup]="reqForm">
+              <ion-item>
+                <ion-label position="floating"><strong>*</strong>Request Type</ion-label>
+                <ion-select interface="popover" formControlName="requestType" (ionChange)="onReqTypeChange()">
+                  <ion-select-option value="">Select</ion-select-option>
+                  <ion-select-option [value]="1">Blood</ion-select-option>
+                  <ion-select-option [value]="2">Platelets</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item lines="inset">
+                <ion-label position="floating"><strong>*</strong>Units</ion-label>
+                <ion-input type="number" min="0" formControlName="units" maxlength="2" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"></ion-input>
+              </ion-item> 
+              <div *ngIf="f.units.touched && f.units.errors">
+                <div *ngIf="f.units.errors.pattern" style="color: red">Units should be 1 to 10</div>
+            </div>
+              <ion-item>
+                <ion-label position="floating"><strong>*</strong>District</ion-label>
+                <ion-select interface="popover" formControlName="districtID" (ionChange)="LoadFacility($event.target.value)">
+                  <ion-select-option value="">Select</ion-select-option>
+                  <ion-select-option *ngFor="let item of districtList" [value]="item.id">{{item.name}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating"><strong>*</strong>Facility</ion-label>
+                <ion-select interface="popover" formControlName="facilityID">
+                  <ion-select-option value="">Select</ion-select-option>
+                  <ion-select-option *ngFor="let item of facilityList" [value]="item.id">{{item.name}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating"><strong>*</strong>Date/Time</ion-label>
+                <ion-datetime displayFormat="D MMM YYYY H:mm" onkeydown="return false" [min]="minDate" formControlName="dateTime"></ion-datetime>
+                <!-- min="1997" max="2010" value="2005-06-17T11:06Z" -->
+              </ion-item>
+              <ion-item lines="inset">
+                <ion-label position="floating">Purpose</ion-label>
+                <ion-input formControlName="purpose" maxlength="50"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Blood</ion-label>
+                <ion-select interface="popover" formControlName="requestingBlood">
+                  <!-- <ion-select-option value="">Select</ion-select-option> -->
+                  <ion-select-option [value]="true">Self</ion-select-option>
+                  <ion-select-option [value]="false">Any Blood</ion-select-option>
+                </ion-select>
+              </ion-item>
+               <ion-item>
+                <ion-label id="profile_image" stacked>Upload Prescription</ion-label>
+                <ion-button (click)="callImage()" slot="end">Pick Image</ion-button>
+                <ion-input type="file" hidden accept="image/*" id="pickImageFile" (change)="changeListener($event)">
+                </ion-input>
+              </ion-item>
+              <div *ngIf="fileName != ''">
+                <div>{{fileName}}</div>
+              </div>
+              <ion-item lines="none" class="ion-item-right-margin">
+                <ion-button size="default" slot="end" type="submit" [disabled]="!reqForm.valid">Submit</ion-button>
+              </ion-item>
+              </form>
+          </ion-card-content>
+        </ion-card>
+      <!-- </div> -->
+    <!-- </ion-col>
+  </ion-row> -->
+</ion-content>

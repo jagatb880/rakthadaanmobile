@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="scroll" scrollX="true" size="36">
+    <ion-card *ngFor="let noti of notificationsList;let i=index" class="padding">
+      <ion-card-content class="scroll" scrollX="true" size="36">
+        <ion-item nowrap>
+          <div>{{noti.notifyMessage}}</div>
+        </ion-item>
+        <ion-item>Date:
+          <div slot="end">{{noti.createdOn | date: 'dd-MMM-yyyy, h:mm a'}}</div>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="notificationsList.length==0">
+      <ion-card-content>
+        <p class="ion-text-center"> No Notification Found </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

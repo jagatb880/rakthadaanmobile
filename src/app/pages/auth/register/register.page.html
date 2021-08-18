@@ -1,0 +1,174 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-button (click)="goBack()">
+            <ion-icon name="arrow-back" mode="md"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+    <!-- <ion-button color="light" slot="start" (click)="dismissRegister()" mode="ios">Close</ion-button> -->
+    <ion-title class="ion-text-center">Member Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+     
+    <ion-card class="welcome-card" style="background: white">
+        <!-- <ion-img src="/assets/shapes.svg"></ion-img> -->
+    
+        <ion-card-content style="background: white">
+            <form [formGroup]="regForm" (ngSubmit)="save()"  style="background: white">
+                <ion-item >
+                    <ion-label position="floating"><strong>*</strong>First Name</ion-label>
+                    <ion-input type="text" formControlName="firstName" maxlength="20"></ion-input>
+                </ion-item>
+                <ion-item >
+                    <ion-label position="floating"><strong>*</strong>Last Name</ion-label>
+                    <ion-input type="text" formControlName="lastName" maxlength="20"></ion-input>
+                </ion-item>
+                <ion-item >
+                    <ion-label position="floating"><strong>*</strong>Date of Birth</ion-label>
+                    <ion-input type="date" formControlName="dateOfBirth" id="dob" placeholder="" (change)="calculateAge($event.target.value)"></ion-input>
+                </ion-item>
+                <ion-item >
+                  <ion-label position="floating"><strong>*</strong>Age</ion-label>
+                  <ion-input type="tel" formControlName="age" placeholder="Age" (change)="calculateDOB($event.target.value)"></ion-input>
+              </ion-item>
+                <ion-item >
+                    <ion-label position="floating"><strong>*</strong>Mobile Number</ion-label>
+                    <ion-input type="tel"  maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                      formControlName="mobile" (change)="checkMobileAvailability()"></ion-input>
+                    </ion-item>
+                    <div *ngIf="f.mobile.touched && f.mobile.errors || f.mobile.touched && !validMobile">
+                        <!-- <div *ngIf="f.mobile.errors.minlength" style="color: red">Enter Valid Mobile Number</div> -->
+                        <div *ngIf="f.mobile.errors?.pattern" style="color: red">Enter Valid Mobile Number</div>
+                        <div *ngIf="!validMobile" style="color: red">Mobile Number already Exists</div>
+                    </div>
+                <ion-item>
+                    <ion-label position="floating"><strong>*</strong>Gender</ion-label>
+                    <ion-select formControlName="genderID" interface="popover">
+                        <ion-select-option value="">Select</ion-select-option>
+                        <ion-select-option *ngFor="let item of master.GenderMaster" [value]="item.id">{{item.name}}</ion-select-option>
+                      </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating"><strong>*</strong>State</ion-label>
+                    <ion-select formControlName="stateID" interface="popover" (ionChange)="changedDropDown(1,$event.target.value)">
+                        <ion-select-option value="">Select</ion-select-option>
+                        <ion-select-option *ngFor="let item of stateList" [value]="item.id">{{item.name}}</ion-select-option>
+                      </ion-select>
+                </ion-item>
+                <ion-item >
+                    <ion-label position="floating"><strong>*</strong>District</ion-label>
+                    <ion-select formControlName="districtID" interface="popover" (ionChange)="changedDropDown(2,$event.target.value)">
+                        <ion-select-option value="">Select</ion-select-option>
+                        <ion-select-option *ngFor="let item of districtList" [value]="item.id">{{item.name}}</ion-select-option>
+                      </ion-select>
+                </ion-item>
+                <ion-item >
+                    <ion-label position="floating"><strong>*</strong>Mandal</ion-label>
+                    <ion-select formControlName="mandalID" interface="popover"> 
+                      <!-- action-sheet -->
+                        <ion-select-option value="">Select</ion-select-option>
+                        <ion-select-option *ngFor="let item of mandalList" [value]="item.id">{{item.name}}</ion-select-option>
+                      </ion-select>
+                </ion-item>
+                <ion-item >
+                    <ion-label position="floating"><strong>*</strong>City</ion-label>
+                    <ion-input formControlName="city" maxlength="20"></ion-input>
+                </ion-item>
+                <ion-item >
+                  <ion-label position="floating"><strong>*</strong>Address</ion-label>
+                  <ion-input formControlName="address" maxlength="250"></ion-input>
+              </ion-item>
+              <!-- <ion-item >
+                <ion-label position="floating"><strong>*</strong>Login Name</ion-label>
+                <ion-input formControlName="loginName" maxlength="20" (change)="checkUserAvailability()" (input)="vlidateSpace($event)"  autocomplete="off"></ion-input>
+            </ion-item>
+            <div *ngIf="f.loginName.touched && f.loginName.errors">
+                <div *ngIf="f.loginName.errors.minlength" style="color: red">Minimum length 0f 4</div>
+            </div> -->
+            <ion-item >
+                <ion-label position="floating"><strong>*</strong>Password</ion-label>
+                <ion-input type="password" formControlName="password" maxlength="20" autocomplete="new-password" minlength="6"></ion-input>
+            </ion-item>
+            <div *ngIf="f.password.touched && f.password.errors">
+                <div *ngIf="f.password.errors.minlength" style="color: red">Invalid Password, minimum length: 8</div>
+            </div>
+            <ion-item >
+                <ion-label position="floating"><strong>*</strong>Confirm Password</ion-label>
+                <ion-input type="password" formControlName="confirmpswd" maxlength="20" autocomplete="new-password" minlength="6"></ion-input>
+            </ion-item>
+            <div *ngIf="f.confirmpswd.touched && f.confirmpswd.errors">
+                <div *ngIf="f.confirmpswd.errors.minlength" style="color: red">Invalid Password, minimum length: 8</div>
+                <div *ngIf="f.confirmpswd.errors.mustMatch" style="color: red">Passwords not matched</div>
+            </div>
+                <ion-item >
+                  <ion-label position="floating"><strong>*</strong>Blood Group</ion-label>
+                  <ion-select formControlName="bloodGroup" interface="popover">
+                    <ion-select-option value="">Select</ion-select-option>
+                    <ion-select-option *ngFor="let item of bloodgrps" [value]="item.name">{{item.name}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item >
+                  <ion-label position="floating">Email</ion-label>
+                  <ion-input formControlName="email" maxlength="50"></ion-input>
+                </ion-item>
+                <div *ngIf="f.email.touched && f.email.errors">
+                  <div style="color: red">Enter Valid Email</div>
+                </div>
+                <ion-item >
+                    <ion-label position="floating">Organization</ion-label>
+                    <ion-select formControlName="organizationID" interface="popover"> 
+                      <!-- action-sheet -->
+                        <ion-select-option value="">Select</ion-select-option>
+                        <ion-select-option *ngFor="let item of organizationList" [value]="item.id">{{item.name}}</ion-select-option>
+                      </ion-select>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>*</strong>Donate Blood</ion-label>
+                  <ion-toggle formControlName="canDonateBlood" slot="end"></ion-toggle>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>*</strong>Donate Platelets</ion-label>
+                  <ion-toggle formControlName="canDonatePlatelets" slot="end"></ion-toggle>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>*</strong>Receive SMS</ion-label>
+                  <ion-toggle formControlName="receiveSms" slot="end"></ion-toggle>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>*</strong>Receive Notifications</ion-label>
+                  <ion-toggle formControlName="receiveMobileNotification" slot="end"></ion-toggle>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>*</strong>Diabetic</ion-label>
+                  <ion-toggle formControlName="diabetic" slot="end"></ion-toggle>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>*</strong>HyperTension</ion-label>
+                  <ion-toggle formControlName="hyperTension" slot="end"></ion-toggle>
+                </ion-item>
+                <ion-item *ngIf="regForm.get('genderID').value == 2">
+                  <ion-label><strong>*</strong>Breast Feeding</ion-label>
+                  <ion-toggle formControlName="breastFeeding" slot="end"></ion-toggle>
+                </ion-item>
+                <ion-item *ngIf="regForm.get('genderID').value == 2">
+                  <ion-label><strong>*</strong>Pregnant</ion-label>
+                  <ion-toggle formControlName="pragnant" slot="end"></ion-toggle>
+                </ion-item>
+                <ion-item >
+                  <ion-label position="floating">Last Donated Date</ion-label>
+                  <ion-input type="date" formControlName="lastBloodDonationDate" placeholder=""></ion-input>
+              </ion-item>
+            <br />
+            <ion-button type="submit" expand="full" color="primary" [disabled]="regForm.invalid || !validMobile">Register</ion-button>
+
+            <p (click)="termsModal()" class="ion-text-center">Terms & Conditions</p>
+        </form>
+        </ion-card-content>
+      </ion-card>
+  
+</ion-content> 

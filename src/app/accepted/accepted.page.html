@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">My Requests</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="container">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="scroll" scrollX="true" size="36">
+    <ion-card *ngFor="let req of records;let i=index" class="padding">
+      <ion-card-content class="scroll" scrollX="true" size="36">
+        <ion-item nowrap>
+          <ion-label>Facility:</ion-label>
+          <div slot="end">{{req.request.facility.name}}</div>
+        </ion-item>
+        <ion-item>Type:
+          <div slot="end">{{req.request.requestType == 1 ? 'Blood' : 'Platelets'}}</div>
+        </ion-item>
+        <ion-item>Units:
+          <div slot="end">{{req.request.units}}</div>
+        </ion-item>
+        <ion-item>Date:
+          <div slot="end">{{req.request.requestDateTime | date: 'dd-MMM-yyyy, h:mm a'}}</div>
+        </ion-item>
+        <ion-item>Fulfilled:
+          <div slot="end">
+            <ion-checkbox [id]="'defaultChecked'+(i+1)" [(ngModel)]="req.fulfill"></ion-checkbox>
+          </div>
+        </ion-item>
+        <ion-item>Prescription:
+          <div slot="end">
+            <ion-button *ngIf="req.request.preURL" expand="block" slot="end" size="small" color="secondary" (click)="openPrescription(req.request.preURL)">View
+            </ion-button>
+            <ion-button *ngIf="!req.request.preURL" expand="block" slot="end" size="small" color="secondary" disabled>View
+            </ion-button>
+          </div>
+        </ion-item>
+        <ion-item>Options:
+          <ion-button expand="block" slot="end" size="small" color="secondary" (click)="EditRequest(req)">Edit
+          </ion-button>
+          <ion-button expand="block" slot="end" color="danger" size="small" (click)="onCancelReq(req)">Cancel
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button slot="start" size="small" (click)="expandItem(req)">View Responders</ion-button>
+          <ion-button color="success" slot="end" size="small" (click)="onSubmit(req)">Submit</ion-button>
+        </ion-item>
+
+        <app-expandable expandHeight="100px" [expanded]="req.expanded">
+          <ion-grid class="scroll" scrollX="true">
+            <ion-row nowrap>
+              <ion-col size="6" class="headerStyle">Donated</ion-col>
+              <ion-col size="6" class="headerStyle">Name</ion-col>
+              <ion-col size="6" class="headerStyle">Mobile No.</ion-col>
+            </ion-row>
+
+            <ion-row nowrap *ngFor="let item of req.requestStatusList;let j=index">
+              <ion-col size="6" class="bodyStyle" *ngIf="item.status == 3">
+                <ion-checkbox [id]="'defaultCheck_'+(i+1)+'_'+(j+1)" mode="ios"
+                  (ionChange)="check(item,req,$event.target)"></ion-checkbox>
+              </ion-col>
+              <ion-col size="6" class="bodyStyle" *ngIf="item.status == 4">
+                Donated
+              </ion-col>
+              <ion-col size="6" class="bodyStyle">
+                <div>{{item.responder.firstName + ' ' + item.responder.lastName}}</div>
+              </ion-col>
+              <ion-col size="6" class="bodyStyle">
+                <div>{{item.responder.mobile }}</div>
+              </ion-col>
+
+            </ion-row>
+
+            <ion-row *ngIf="req.requestStatusList.length == 0">
+              <ion-col size="18">No Requests Found</ion-col>
+            </ion-row>
+          </ion-grid>
+        </app-expandable>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="records.length==0">
+      <ion-card-content>
+        <p class="ion-text-center"> No Requests Found </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

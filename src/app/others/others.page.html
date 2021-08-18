@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Register for Others</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card class="welcome-card" style="background: white">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-card-content style="background: white" *ngIf="shw == ''">
+      <div>
+        <form [formGroup]="regForm" (ngSubmit)="savereg()">
+          <!-- <div class="container"> -->
+          <ion-item>
+            <ion-label position="floating"><strong>*</strong>First Name</ion-label>
+            <ion-input formControlName="firstName" maxlength="20"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating"><strong>*</strong>Last Name</ion-label>
+            <ion-input formControlName="lastName" maxlength="20"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating"><strong>*</strong>Mobile Number</ion-label>
+            <ion-input type="tel" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+              formControlName="mobile" (change)="checkMobileAvailability()"></ion-input>
+          </ion-item>
+          <div *ngIf="f.mobile.touched && f.mobile.errors || f.mobile.touched && !validMobile">
+            <!-- <div *ngIf="f.mobile.errors.minlength" style="color: red">Enter Valid Mobile Number</div> -->
+            <div *ngIf="f.mobile.errors?.pattern" style="color: red">Enter Valid Mobile Number</div>
+            <div *ngIf="!validMobile" style="color: red">Mobile Number already Exists</div>
+          </div>
+          <ion-item>
+            <ion-label position="floating"><strong>*</strong>Address</ion-label>
+            <ion-input formControlName="address" maxlength="250"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating"><strong>*</strong>Gender</ion-label>
+            <ion-select interface="popover" formControlName="genderID">
+              <ion-select-option value="">Select</ion-select-option>
+              <ion-select-option *ngFor="let item of master.GenderMaster" [value]="item.id">{{item.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <br />
+          <ion-button type="submit" expand="full" color="primary" [disabled]="regForm.invalid   || !validMobile">
+            Register</ion-button>
+        </form>
+      </div>
+    </ion-card-content>
+    <div *ngIf="shw == 'others'">
+      <ion-card>
+        <!-- <ion-card-header color="secondary" class="login-card-header">
+          <ion-card-title>Request Blood</ion-card-title>
+        </ion-card-header> -->
+        <ion-card-content>
+          <form (ngSubmit)="save()" padding-right [formGroup]="reqForm">
+            <ion-item>
+              <ion-label position="floating"><strong>*</strong>Request Type</ion-label>
+              <ion-select interface="popover" formControlName="requestType">
+                <ion-select-option value="">Select</ion-select-option>
+                <ion-select-option [value]="1">Blood</ion-select-option>
+                <ion-select-option [value]="2">Platelets</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="inset">
+              <ion-label position="floating"><strong>*</strong>Units</ion-label>
+              <ion-input type="number" min="0" formControlName="units" maxlength="2"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"></ion-input>
+            </ion-item>
+            <div *ngIf="r.units.touched && r.units.errors">
+              <div *ngIf="r.units.errors.pattern" style="color: red">Units should be 1 to 10</div>
+            </div>
+            <ion-item>
+              <ion-label position="floating"><strong>*</strong>District</ion-label>
+              <ion-select interface="popover" formControlName="districtID"
+                (ionChange)="LoadFacility($event.target.value)">
+                <ion-select-option value="">Select</ion-select-option>
+                <ion-select-option *ngFor="let item of districtList" [value]="item.id">{{item.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating"><strong>*</strong>Facility</ion-label>
+              <ion-select formControlName="facilityID">
+                <ion-select-option value="">Select</ion-select-option>
+                <ion-select-option *ngFor="let item of facilityList" [value]="item.id">{{item.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating"><strong>*</strong>Date/Time</ion-label>
+              <ion-datetime displayFormat="D MMM YYYY H:mm" onkeydown="return false" [min]="minDate"
+                formControlName="dateTime"></ion-datetime>
+              <!-- min="1997" max="2010" value="2005-06-17T11:06Z" -->
+            </ion-item>
+            <ion-item lines="inset">
+              <ion-label position="floating">Purpose</ion-label>
+              <ion-input formControlName="purpose"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="ion-item-right-margin">
+              <ion-button size="default" slot="end" type="submit" [disabled]="!reqForm.valid">Submit</ion-button>
+            </ion-item>
+          </form>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="text-align:center;margin-left:-10vw">
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <div *ngFor="let page of appPages">
+    <ion-card class="card-view" (click)="goToPage(page.url)"> 
+      <span class="card-text">{{page.title}}</span>
+    </ion-card>
+  </div>
+</ion-content>

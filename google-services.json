@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "619884709120",
+    "firebase_url": "https://rakthadaan-14033.firebaseio.com",
+    "project_id": "rakthadaan-14033",
+    "storage_bucket": "rakthadaan-14033.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619884709120:android:5f8cbd9059abd6341cdfe5",
+        "android_client_info": {
+          "package_name": "com.dhanush.rakthadaan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619884709120-qcf5819nt5k0e6kcitemsmsi8aclb08a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC12AO4zEX8fOudbiGi3HQYo2HnWhXPs5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619884709120-qcf5819nt5k0e6kcitemsmsi8aclb08a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Suggestion</ion-title>
+    <ion-buttons slot="end">
+      <!-- <ion-button id="btnSearch" (click)="search()">
+        <ion-icon name="search"></ion-icon>
+      </ion-button> -->
+    <ion-button id="addSuggestion" (click)="addSuggestion()">
+      <ion-icon name="add-circle"></ion-icon>
+      <!-- <button ion-button color="primary"><ion-icon name="add-circle"></ion-icon>Add</button> -->
+    </ion-button>
+     </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="scroll" scrollX="true" size="36">
+    <ion-card *ngFor="let req of suggesationList;let i=index" class="padding">
+      <ion-card-content class="scroll" scrollX="true" size="36">
+        <ion-item nowrap>
+          <ion-label>Suggestion:</ion-label>
+          <!-- <div slot="end">{{req.suggest}}</div> -->
+          <div slot="end"> <ion-textarea
+            [value]="req.suggest"
+            maxlength="2000">
+          </ion-textarea> </div>
+        </ion-item>
+        <ion-item>Suggestion Date:
+          <div slot="end">{{req.createdOn | date: 'dd-MMM-yyyy, h:mm a'}}</div>
+        </ion-item>
+        <ion-item>Suggestion By:
+          <div slot="end">{{req.user? req.user.firstName:''}} {{req.user? req.user.lastName:''}} {{req.user? '('+req.user.mobile+')':''}}</div>
+        </ion-item>
+        <!-- <ion-item>
+          <ion-button slot="start" size="small" (click)="expandItem(req)">View Responders</ion-button>
+          <ion-button color="success" slot="end" size="small" (click)="onSubmit(req)">Submit</ion-button>
+        </ion-item> -->
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="suggesationList.length==0">
+      <ion-card-content>
+        <p class="ion-text-center"> No Suggestions Found </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

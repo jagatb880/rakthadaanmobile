@@ -1,0 +1,189 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- <ion-button color="light" slot="start" (click)="dismissRegister()" mode="ios">Close</ion-button> -->
+    <ion-title class="ion-text-center">Plasma Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card class="welcome-card" style="background: white">
+    <!-- <ion-img src="/assets/shapes.svg"></ion-img> -->
+
+    <ion-card-content style="background: white">
+      <p>
+        <b>Information</b>
+        <br/>
+        • I should have tested positive for COVID-19.
+        <br/>
+        • I needed to have symptoms like breathing problem, cough, cold, fever, body ache.
+        <br/>
+        • I do not have any children (women only).
+        <br/>
+        • I do not have diabetes.
+        <br/>
+        • I do not have high blood pressure.
+        <br/>
+        • I am not over the age of 65.
+        <br/>
+      </p>
+      <form [formGroup]="plasmaRegForm" (ngSubmit)="presentTermsPopover()" style="background: white">
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>First Name</ion-label>
+          <ion-input type="text" formControlName="firstName" maxlength="20"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Last Name</ion-label>
+          <ion-input type="text" formControlName="lastName" maxlength="20"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Age</ion-label>
+          <ion-input type="tel" formControlName="age" maxlength="3"></ion-input>
+          <!-- <ion-input type="date" formControlName="dateOfBirth" placeholder=""></ion-input> -->
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Mobile Number</ion-label>
+          <ion-input type="tel" maxlength="10" formControlName="mobile"></ion-input>
+        </ion-item>
+        <div *ngIf="f.mobile.touched && f.mobile.errors">
+          <div *ngIf="f.mobile.errors.pattern" style="color: red">Enter Valid Mobile Number</div>
+        </div>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Email</ion-label>
+          <ion-input formControlName="email" maxlength="50"></ion-input>
+        </ion-item>
+        <div *ngIf="f.email.touched && f.email.errors">
+          <div style="color: red">Enter Valid Email</div>
+        </div>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Gender</ion-label>
+          <ion-select formControlName="genderID" interface="popover">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option *ngFor="let item of master.GenderMaster" [value]="item.id">{{item.name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>    
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Weight</ion-label>
+          <ion-input type="tel" formControlName="weight" maxlength="3"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Married</ion-label>
+          <ion-toggle formControlName="married" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label>Children</ion-label>
+          <ion-toggle formControlName="children" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>*</strong>Covid Tested</ion-label>
+          <ion-toggle formControlName="covidTested" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Date of Covid Positive</ion-label>
+          <ion-input type="date" formControlName="dateOfCovidPositve" placeholder="" [max]="maxPositiveDate"
+            (ionChange)="oncovidPositiveDateChange($event.target.value)"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>*</strong>Symptoms</ion-label>
+          <ion-toggle formControlName="symptoms" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Covid Symptoms</ion-label>
+          <!-- <ion-input formControlName="covidSymptoms" maxlength="100"></ion-input> -->
+          <ion-select formControlName="covidSymptoms" multiple="true" interface="popover">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option *ngFor="let item of lstSymptom" [value]="item.name">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>State</ion-label>
+          <ion-select formControlName="stateID" interface="popover">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option *ngFor="let item of stateList" [value]="item.id">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>City</ion-label>
+          <ion-input formControlName="city" maxlength="20"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Blood Group</ion-label>
+          <ion-select formControlName="bloodGroup" interface="popover">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option *ngFor="let item of bloodgrps" [value]="item.name">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>*</strong>Diabetes</ion-label>
+          <ion-toggle formControlName="diabetes" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Fourteen Drinks PerWeek</ion-label>
+          <!-- <ion-toggle formControlName="fourteenDrinksPerWeek" slot="end"></ion-toggle> -->
+          <ion-select formControlName="fourteenDrinksPerWeek" interface="popover">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option [value]="true">Yes</ion-select-option>
+            <ion-select-option [value]="false">No</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>*</strong>Liver Disease</ion-label>
+          <ion-toggle formControlName="liverDisease" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>*</strong>Kidney Disease</ion-label>
+          <ion-toggle formControlName="kidneyDisease" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>*</strong>Blood Pressure</ion-label>
+          <ion-toggle formControlName="bloodPressure" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>*</strong>Aadhar Card</ion-label>
+          <ion-toggle formControlName="aadharCard" slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Date Of Recovery</ion-label>
+          <ion-input type="date" formControlName="dateOfRecovery" placeholder="" [min]="minToDate"
+            [max]="maxRecoveryDate"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label id="profile_image" stacked>Discharge Report</ion-label>
+          <ion-button (click)="callImage()" slot="end">Pick Image</ion-button>
+          <!-- //(click)="uploadImg()" -->
+          <ion-input type="file" hidden accept="image/*" id="pickImageFile" (change)="changeListener($event)">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="fileName != ''">
+          <div>{{fileName}}</div>
+        </div>
+        <ion-item>
+          <ion-label position="floating"><strong>*</strong>Covid Tested Negative in Last Two weeks</ion-label>
+          <!-- <ion-toggle formControlName="covidTestedNegativeInLastTwoweeks" slot="end"></ion-toggle> -->
+          <ion-select formControlName="covidTestedNegativeInLastTwoweeks" interface="popover">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option [value]="true">Yes</ion-select-option>
+            <ion-select-option [value]="false">No</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>*</strong>Active</ion-label>
+          <ion-toggle formControlName="active" slot="end"></ion-toggle>
+        </ion-item>
+        <br />
+        <ion-button type="submit" expand="full" color="primary" [disabled]="plasmaRegForm.invalid">Submit
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

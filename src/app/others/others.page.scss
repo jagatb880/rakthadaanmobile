@@ -1,0 +1,12 @@
+ion-content{
+    //     --ion-background-color:#984851;
+    
+    // background: -moz-linear-gradient(top,  #984851 0%, #604771 100%); 
+    // background: -webkit-linear-gradient(top,  #984851 0%,#604771 100%); 
+    --ion-background-color: linear-gradient(to bottom,  #984851 0%,#604771 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#984851', endColorstr='#604771',GradientType=0 );
+    }
+
+ion-item{
+    --ion-background-color:#fff;
+ }

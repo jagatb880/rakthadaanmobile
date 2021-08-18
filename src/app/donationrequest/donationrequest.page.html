@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Accept Requests</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="container"> 
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+    <ion-card>
+        <ion-item lines="none">
+            <ion-col size="4"><b>Facility</b></ion-col>
+            <ion-col size="4"><b>Units</b></ion-col>
+            <ion-col size="4"><b>Status</b></ion-col>
+          </ion-item>
+      <ion-item lines="full" *ngFor="let item of records; let i = index;" (click)="presentPopover(item,'')" wrap >
+            <ion-col size="4">{{item.facility.name}}</ion-col>
+            <ion-col size="4">{{item.units}}</ion-col>
+            <ion-col *ngIf="item.status == 3">Accepted</ion-col>
+            <ion-col *ngIf="item.status == 4"> Donated</ion-col>
+            <ion-col *ngIf="item.status == 1"><ion-button> View</ion-button></ion-col>
+      </ion-item>
+  </ion-card>
+    <p (click)="termsModal()" class="ion-text-center">Terms & Conditions</p>
+</ion-content>

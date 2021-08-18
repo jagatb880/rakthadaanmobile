@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title class="ion-text-center">Submit the Request</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content class="padding">
+      <form (ngSubmit)="save()" padding-right [formGroup]="ratingForm">
+          <ion-item><ion-label>Rate us:</ion-label><rating formControlName="rate" readonly="false" size="default"></rating></ion-item> 
+          <ion-item>
+              <ion-label>Feedback:</ion-label>
+              <ion-textarea rows="6" cols="10" placeholder="Feedback..." formControlName="feedback"></ion-textarea>
+            </ion-item>
+            <ion-item lines="none" class="ion-item-right-margin">
+                <ion-button size="default" slot="end" type="submit" [disabled]="!ratingForm.valid">Submit</ion-button>
+              </ion-item>
+            </form>
+  </ion-content>
+  

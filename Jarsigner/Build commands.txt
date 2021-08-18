@@ -1,0 +1,4 @@
+"C:\Program Files\Android\Android Studio\jre\bin\jarsigner" -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "D:\Work\Rakthadaan Mobile\rakthadaanmobile\Jarsigner\rakthadaan.jks" "D:\Work\Rakthadaan Mobile\rakthadaanmobile\platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk" rakthadaan
+
+
+"C:\Users\dell\AppData\Local\Android\Sdk\build-tools\29.0.3\zipalign" -v 4 "D:\Work\Rakthadaan Mobile\rakthadaanmobile\platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk" Aaa.apk

@@ -1,0 +1,103 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+// ion-split-pane{ 
+//     --border: none !important;
+//     ion-menu{
+//      --background: var(--ion-color-primary) !important; 
+//         ion-content{            
+//             --background: var(--ion-color-primary) !important; 
+//             ion-list-header{ 
+//                 --background: var(--ion-color-primary) !important;
+//                 --color: #FFFFFF !important;   
+//             }
+//             ion-item{
+//                 --background: var(--ion-color-primary) !important;
+//                  --color: #FFFFFF !important;
+//                  ion-icon{ padding-right: 10px !important; }
+//             }
+//         }
+//     }
+// }
+
+ion-menu{
+    ion-item,
+    ion-list, .list-md,
+    ion-content{
+        --background: var(--dark-color);
+        --ion-background-color: var(--dark-color);
+    }
+    ion-item{
+        color: var(--text-color);
+    }
+    ion-icon{
+        color: #21a3ee;
+    }
+    ion-footer{
+        color: var(--text-color);
+    }
+}
+
+ion-popover {
+    border-radius: 50px;
+    --width: 80%;
+    --max-width: 80%;
+  }
+
+.logo-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--dark-color);
+    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3963d6', endColorstr='#95659d', GradientType=1 );
+    // padding: 2em 0;
+    min-height: 200px;
+    .logo-section__wrapper{
+        text-align: center;
+        .logo-section__logo{
+            // display: block;
+            width: 250px;
+            height: 100px;
+            border-radius: 100%;
+        }
+        .logo-section__title{
+            font-size: 1.5rem;
+            font-weight: normal;
+            color: var(--text-color);
+        }
+    }
+}
+
+.my-custom-class{
+    --background: rgb(242, 243, 243);
+    --color:rgb(0, 0, 0);
+    --border-style:solid;
+    --border-radius: 25px;
+    // --border-width :5px;
+    // --border-color:rgb(228, 98, 79);
+}
+ 
