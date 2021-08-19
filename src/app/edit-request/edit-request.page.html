@@ -49,16 +49,18 @@
                 <ion-datetime displayFormat="D MMM YYYY H:mm" onkeydown="return false" [min]="minDate" formControlName="dateTime"></ion-datetime>
                 <!-- min="1997" max="2010" value="2005-06-17T11:06Z" -->
               </ion-item>
-              <ion-item lines="inset">
+              <ion-item>
                 <ion-label position="floating">Purpose</ion-label>
-                <ion-input formControlName="purpose" maxlength="50"></ion-input>
+                <ion-select interface="popover" formControlName="purpose">
+                  <ion-select-option value="">Select</ion-select-option>
+                  <ion-select-option *ngFor="let item of purposeList" [value]="item.id">{{item.purpose}}</ion-select-option>
+                </ion-select>
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Blood</ion-label>
-                <ion-select interface="popover" formControlName="requestingBlood">
-                  <!-- <ion-select-option value="">Select</ion-select-option> -->
-                  <ion-select-option [value]="true">Self</ion-select-option>
-                  <ion-select-option [value]="false">Any Blood</ion-select-option>
+                <ion-select  interface="popover" formControlName="requestingBlood">
+                  <ion-select-option value="">Select</ion-select-option>
+                  <ion-select-option *ngFor="let data of bloodTypes" [value]="data.name">{{data.name}}</ion-select-option>
                 </ion-select>
               </ion-item>
                <ion-item>

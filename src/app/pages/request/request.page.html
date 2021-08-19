@@ -110,7 +110,7 @@
           <ion-label position="floating">Blood</ion-label>
           <ion-select  interface="popover" formControlName="requestingBlood">
             <ion-select-option value="">Select</ion-select-option>
-            <ion-select-option *ngFor="let data of bloodTypes" [value]="data.id">{{data.name}}</ion-select-option>
+            <ion-select-option *ngFor="let data of bloodTypes" [value]="data.name">{{data.name}}</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>

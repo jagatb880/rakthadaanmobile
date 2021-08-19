@@ -93,6 +93,7 @@ export class AppComponent implements OnInit {
   ) {
     this.initializeApp();
     this.getContactDetails();
+    this.entityService.getNotifications();
     setTimeout(()=>{this.checkVersion()}, 2000);
   }
 

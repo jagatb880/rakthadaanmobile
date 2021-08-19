@@ -54,7 +54,7 @@ export class AddSuggestionPage extends Base implements OnInit {
 async save(){
     if (this.online) {
       let error;
-      let user : any = this.entityService.token;
+      let user: any = JSON.parse(localStorage.getItem('user'));
       this.addSugForm.patchValue({
         user: {id: +user.data.id}
       });

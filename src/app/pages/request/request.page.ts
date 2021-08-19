@@ -159,11 +159,6 @@ export class RequestPage extends Base implements OnInit {
         requesterID: user.data.id, status: 1, dateTime: moment(this.reqForm.value.dateTime).format('YYYY-MM-DDTHH:mm:ss'),
       });
 
-      if(this.reqForm.controls['requestRaisedFor'].value != 'other'){
-        let data = this.reqForm.value.requestingBlood ? user.data.bloodGroup : 'Any Blood'
-        this.reqForm.controls['requestingBlood'].setValue(data);
-      }
-
       let entity = this.reqForm.value;
       delete entity.districtID;
       if(!this.otherSecion){

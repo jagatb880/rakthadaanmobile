@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { EntityService } from '../services/entity.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,6 +22,9 @@ import { Network } from '@ionic-native/network/ngx';
 export class EditRequestPage extends Base implements OnInit {
 
   reqForm = new FormGroup({});
+  purposeList: any[];
+  bloodType: any[];
+  bloodTypes: any[];
   facilityList = []; minDate = ''; subscription: any; tent = ''; datime = '';
   lastTimeBackPress = 0; timePeriodToExit = 2000; req: any; editId = ''; districtID = '';
   files: any; fileName = '';
@@ -47,7 +50,8 @@ export class EditRequestPage extends Base implements OnInit {
     public alertController: AlertController,
     private market: Market,
     public network: Network,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private changeRef: ChangeDetectorRef) {
     super(entityService, router, storage, menu, loadingController, network, platform, alertService);
 
     this.menu.enable(true);
@@ -59,6 +63,16 @@ export class EditRequestPage extends Base implements OnInit {
   }
 
   ngOnInit() {
+    this.bloodType = [
+      {
+        "name":"Self",
+        "id":true
+      },
+      {
+        "name":"Any Blood",
+        "id":false
+      }
+    ]
   }
 
   get f() { return this.reqForm.controls; }
@@ -100,12 +114,12 @@ export class EditRequestPage extends Base implements OnInit {
   }
 
   async save() {
+    debugger;
     if (this.online) {
       let error;
-      let user: any = this.entityService.token;
+      let user: any = JSON.parse(localStorage.getItem('user'));
       this.reqForm.patchValue({
-        id: this.editId, requesterID: this.entityService.userId, dateTime: moment(this.reqForm.value.dateTime).format('YYYY-MM-DDTHH:mm:ss'),
-        requestingBlood: this.reqForm.value.requestingBlood ? user.data.bloodGroup : 'Any Blood'
+        id: this.editId, requesterID: user.data.id, dateTime: moment(this.reqForm.value.dateTime).format('YYYY-MM-DDTHH:mm:ss'),
       });
       let entity = this.reqForm.value;
       entity.prescriptionName = this.fileName;
@@ -152,9 +166,33 @@ export class EditRequestPage extends Base implements OnInit {
     this.fileName = item.request.prescriptionName;
     this.reqForm.patchValue({
       requestType: item.request.requestType, units: item.request.units,
-      dateTime: item.request.requestDateTime, purpose: item.request.purpose, status: item.request.status,
-      requestingBlood: item.request.requestingBlood === 'Any Blood' ? false : true
+      dateTime: item.request.requestDateTime, status: item.request.status
     });
+    this.entityService.getAllPurpose("getallpurposes").then((response: any)=>{
+      if(response.status == 'OK'){
+        this.purposeList = response.data;
+        setTimeout(() => {
+          this.reqForm.patchValue({purpose: Number(item.request.purpose)})
+        }, 500);
+      }
+    })
+    if(item.request.requestingBlood == 'Self' || item.request.requestingBlood == 'Any Blood'){
+      this.bloodTypes = this.bloodType;
+      setTimeout(() => {
+        this.reqForm.patchValue({requestingBlood: item.request.requestingBlood})
+      }, 500);
+    }else{
+      this.entityService.findAllBloodGroup("crud/BloodGroup/findAll",this.entityService.jwt).then((response: any)=>{
+        if(response.status == 'OK'){
+          this.bloodTypes = response.data;
+          setTimeout(() => {
+            this.reqForm.patchValue({requestingBlood: item.request.requestingBlood})
+          }, 500);
+        }
+      })
+    }
+    
+    
     Promise.all([this.LoadStates(), this.LoadFacility(item.request.facility.districtID)]).then(() => {
       setTimeout(() => { this.reqForm.patchValue({ districtID: this.req.request.facility.districtID, facilityID: this.req.request.facility.id }, { onlySelf: true, emitEvent: false }) }, 500);
     });
@@ -171,6 +209,7 @@ export class EditRequestPage extends Base implements OnInit {
         this.sortList(this.stateList);
         this.changedDropDown(1, this.entityService.tenant == 'AP' ? 2 : this.stateList.filter(f => f.name.toUpperCase() == 'TELANGANA')[0].id);
         // this.loadingServ.dismiss();
+        
       }
     });
   }
