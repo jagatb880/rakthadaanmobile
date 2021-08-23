@@ -30,6 +30,7 @@ export class EditRequestPage extends Base implements OnInit {
   files: any; fileName = '';
   unitPattern = "^0*([1-9]|10)$";
   public min = new Date();
+  otherSecion: boolean = false;
 
   // @Input() editReqData: any;
 
@@ -78,6 +79,7 @@ export class EditRequestPage extends Base implements OnInit {
   get f() { return this.reqForm.controls; }
 
   async ionViewWillEnter() {
+    this.otherSecion = false;
     if (this.online) {
       this.onEdit(this.req);
     }
@@ -114,7 +116,6 @@ export class EditRequestPage extends Base implements OnInit {
   }
 
   async save() {
-    debugger;
     if (this.online) {
       let error;
       let user: any = JSON.parse(localStorage.getItem('user'));
@@ -165,29 +166,35 @@ export class EditRequestPage extends Base implements OnInit {
     this.editId = item.request.id;
     this.fileName = item.request.prescriptionName;
     this.reqForm.patchValue({
+      firstname:item.request.firstname,lastname:item.request.lastname,
+      mobileno:item.request.mobileno,address:item.request.address,
       requestType: item.request.requestType, units: item.request.units,
       dateTime: item.request.requestDateTime, status: item.request.status
     });
+    setTimeout(() => {
+      this.reqForm.patchValue({gender: Number(item.request.gender)})
+    }, 800);
     this.entityService.getAllPurpose("getallpurposes").then((response: any)=>{
       if(response.status == 'OK'){
         this.purposeList = response.data;
         setTimeout(() => {
           this.reqForm.patchValue({purpose: Number(item.request.purpose)})
-        }, 500);
+        }, 800);
       }
     })
     if(item.request.requestingBlood == 'Self' || item.request.requestingBlood == 'Any Blood'){
       this.bloodTypes = this.bloodType;
       setTimeout(() => {
         this.reqForm.patchValue({requestingBlood: item.request.requestingBlood})
-      }, 500);
+      }, 800);
     }else{
+      this.otherSecion = true
       this.entityService.findAllBloodGroup("crud/BloodGroup/findAll",this.entityService.jwt).then((response: any)=>{
         if(response.status == 'OK'){
           this.bloodTypes = response.data;
           setTimeout(() => {
             this.reqForm.patchValue({requestingBlood: item.request.requestingBlood})
-          }, 500);
+          }, 800);
         }
       })
     }
@@ -218,6 +225,11 @@ export class EditRequestPage extends Base implements OnInit {
     this.reqForm = this.fb.group({
       id: [''],
       requesterID: [''],
+      firstname:[''],
+      lastname:[''],
+      mobileno:[''],
+      address:[''],
+      gender:[''],
       dateTime: ['', [Validators.required]],
       districtID: ['', [Validators.required]],
       facilityID: ['', [Validators.required]],

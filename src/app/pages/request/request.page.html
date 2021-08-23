@@ -38,16 +38,16 @@
         <div *ngIf="otherSecion">
           <ion-item>
             <ion-label position="floating"><strong>*</strong>First Name</ion-label>
-            <ion-input formControlName="firstName" maxlength="20"></ion-input>
+            <ion-input formControlName="firstname" maxlength="20"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating"><strong>*</strong>Last Name</ion-label>
-            <ion-input formControlName="lastName" maxlength="20"></ion-input>
+            <ion-input formControlName="lastname" maxlength="20"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating"><strong>*</strong>Mobile Number</ion-label>
             <ion-input type="tel" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-              formControlName="mobileNumber" (change)="checkMobileAvailability()"></ion-input>
+              formControlName="mobileno" (change)="checkMobileAvailability()"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating"><strong>*</strong>Address</ion-label>
@@ -55,7 +55,7 @@
           </ion-item>
           <ion-item>
             <ion-label position="floating"><strong>*</strong>Gender</ion-label>
-            <ion-select interface="popover" formControlName="genderID">
+            <ion-select interface="popover" formControlName="gender">
               <ion-select-option value="">Select</ion-select-option>
               <ion-select-option *ngFor="let item of master.GenderMaster" [value]="item.id">{{item.name}}
               </ion-select-option>

@@ -161,12 +161,13 @@ export class RequestPage extends Base implements OnInit {
 
       let entity = this.reqForm.value;
       delete entity.districtID;
+      delete entity.requestRaisedFor;
       if(!this.otherSecion){
-        delete entity.firstName;
-        delete entity.lastName;
-        delete entity.mobileNumber;
+        delete entity.firstname;
+        delete entity.lastname;
+        delete entity.mobileno;
         delete entity.address;
-        delete entity.genderID;
+        delete entity.gender;
       }
       let formData = new FormData();
       formData.append(`input`, JSON.stringify(entity));
@@ -218,11 +219,11 @@ export class RequestPage extends Base implements OnInit {
     this.reqForm = this.fb.group({
       requesterID: [''],
       requestRaisedFor: [''],
-      firstName:[''],
-      lastName:[''],
-      mobileNumber:[''],
+      firstname:[''],
+      lastname:[''],
+      mobileno:[''],
       address:[''],
-      genderID:[''],
+      gender:[''],
       dateTime: ['', [Validators.required]],
       districtID: ['', [Validators.required]],
       facilityID: ['', [Validators.required]],
@@ -336,30 +337,30 @@ export class RequestPage extends Base implements OnInit {
   requestRiasedFor(){
     if(this.reqForm.controls['requestRaisedFor'].value == 'other'){
       this.otherSecion = true;
-      this.reqForm.get('firstName').setValidators([Validators.required])
-      this.reqForm.get('firstName').updateValueAndValidity();
-      this.reqForm.get('lastName').setValidators([Validators.required])
-      this.reqForm.get('lastName').updateValueAndValidity();
-      this.reqForm.get('mobileNumber').setValidators([Validators.required])
-      this.reqForm.get('mobileNumber').updateValueAndValidity();
+      this.reqForm.get('firstname').setValidators([Validators.required])
+      this.reqForm.get('firstname').updateValueAndValidity();
+      this.reqForm.get('lastname').setValidators([Validators.required])
+      this.reqForm.get('lastname').updateValueAndValidity();
+      this.reqForm.get('mobileno').setValidators([Validators.required])
+      this.reqForm.get('mobileno').updateValueAndValidity();
       this.reqForm.get('address').setValidators([Validators.required])
       this.reqForm.get('address').updateValueAndValidity();
-      this.reqForm.get('genderID').setValidators([Validators.required])
-      this.reqForm.get('genderID').updateValueAndValidity();
+      this.reqForm.get('gender').setValidators([Validators.required])
+      this.reqForm.get('gender').updateValueAndValidity();
       this.bloodTypes = this.allBloodGroup;
       this.reqForm.controls['requestingBlood'].setValue("");
     }else{
       this.otherSecion = false;
-      this.reqForm.get('firstName').clearValidators();
-      this.reqForm.get('firstName').updateValueAndValidity();
-      this.reqForm.get('lastName').clearValidators();
-      this.reqForm.get('lastName').updateValueAndValidity();
-      this.reqForm.get('mobileNumber').clearValidators();
-      this.reqForm.get('mobileNumber').updateValueAndValidity();
+      this.reqForm.get('firstname').clearValidators();
+      this.reqForm.get('firstname').updateValueAndValidity();
+      this.reqForm.get('lastname').clearValidators();
+      this.reqForm.get('lastname').updateValueAndValidity();
+      this.reqForm.get('mobileno').clearValidators();
+      this.reqForm.get('mobileno').updateValueAndValidity();
       this.reqForm.get('address').clearValidators();
       this.reqForm.get('address').updateValueAndValidity();
-      this.reqForm.get('genderID').clearValidators();
-      this.reqForm.get('genderID').updateValueAndValidity();
+      this.reqForm.get('gender').clearValidators();
+      this.reqForm.get('gender').updateValueAndValidity();
       this.bloodTypes = this.bloodType;
       this.reqForm.controls['requestingBlood'].setValue("");
     }

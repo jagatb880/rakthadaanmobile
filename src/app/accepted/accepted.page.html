@@ -15,6 +15,28 @@
   <div class="scroll" scrollX="true" size="36">
     <ion-card *ngFor="let req of records;let i=index" class="padding">
       <ion-card-content class="scroll" scrollX="true" size="36">
+        <div *ngIf="req.otherSecion">
+          <ion-item nowrap>
+            <ion-label>First Name:</ion-label>
+            <div slot="end">{{req.request.firstname}}</div>
+          </ion-item>
+          <ion-item nowrap>
+            <ion-label>Last Name:</ion-label>
+            <div slot="end">{{req.request.lastname}}</div>
+          </ion-item>
+          <ion-item nowrap>
+            <ion-label>Mobile:</ion-label>
+            <div slot="end">{{req.request.mobileno}}</div>
+          </ion-item>
+          <ion-item nowrap>
+            <ion-label>Address:</ion-label>
+            <div slot="end">{{req.request.address}}</div>
+          </ion-item>
+          <ion-item nowrap>
+            <ion-label>Gender:</ion-label>
+            <div slot="end">{{getGender(req.request.gender)}}</div>
+          </ion-item>
+        </div>
         <ion-item nowrap>
           <ion-label>Facility:</ion-label>
           <div slot="end">{{req.request.facility.name}}</div>

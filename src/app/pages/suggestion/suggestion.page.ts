@@ -71,7 +71,7 @@ export class SuggestionPage extends Base implements OnInit {
 
   async LoadData() {
     if (this.online) {
-    let user: any = this.entityService.token;
+    let user: any = JSON.parse(localStorage.getItem('user'));
    // let userId = JSON.parse(localStorage.getItem('user')).data.roles == 'Admin' ? '' : `/${JSON.parse(localStorage.getItem('user')).data.id}`;
    let userId = user.data.roles == 'Admin' ? '' : `/${user.data.id}`;
    let entity=`suggestionbydate/${this.datePipe.transform(this.searchForm.get('fromDate').value, 'yyyy-MM-dd')}/${this.datePipe.transform(this.searchForm.get('toDate').value, 'yyyy-MM-dd')}${userId}`;

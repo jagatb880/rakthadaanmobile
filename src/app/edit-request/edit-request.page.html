@@ -15,6 +15,33 @@
         <ion-card>
           <ion-card-content>
             <form (ngSubmit)="save()" padding-right [formGroup]="reqForm">
+              <div *ngIf="otherSecion">
+                <ion-item>
+                  <ion-label position="floating"><strong>*</strong>First Name</ion-label>
+                  <ion-input formControlName="firstname" maxlength="20"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating"><strong>*</strong>Last Name</ion-label>
+                  <ion-input formControlName="lastname" maxlength="20"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating"><strong>*</strong>Mobile Number</ion-label>
+                  <ion-input type="tel" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                    formControlName="mobileno" (change)="checkMobileAvailability()"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating"><strong>*</strong>Address</ion-label>
+                  <ion-input formControlName="address" maxlength="250"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating"><strong>*</strong>Gender</ion-label>
+                  <ion-select interface="popover" formControlName="gender">
+                    <ion-select-option value="">Select</ion-select-option>
+                    <ion-select-option *ngFor="let item of master.GenderMaster" [value]="item.id">{{item.name}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </div>
               <ion-item>
                 <ion-label position="floating"><strong>*</strong>Request Type</ion-label>
                 <ion-select interface="popover" formControlName="requestType" (ionChange)="onReqTypeChange()">

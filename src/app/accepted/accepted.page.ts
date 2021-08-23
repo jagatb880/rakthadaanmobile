@@ -86,8 +86,15 @@ export class AcceptedPage extends Base implements OnInit {
     }).then((res: any) => {
       if (res) {
         let result = res;
+        
         this.records = result.data != null ? result.data : [];
         this.records.forEach(e => {
+          e['otherSecion'] = {}
+          if(e.request.requestingBlood == 'Self' || e.request.requestingBlood == 'Any Blood'){
+            e['otherSecion'] = false
+          }else{
+            e['otherSecion'] = true
+          }
           e.requestStatusList.forEach(f => {
             Object.assign(f, { mname: '' });
           });
@@ -248,6 +255,11 @@ export class AcceptedPage extends Base implements OnInit {
 
   openPrescription(url:string){
     window.open(url);
+  }
+
+  getGender(id: string){
+    let a = this.master.GenderMaster.filter(data=> data.id == id)
+    return a[0].name;
   }
 
 }
