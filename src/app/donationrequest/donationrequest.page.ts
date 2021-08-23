@@ -53,7 +53,8 @@ export class DonationrequestPage extends Base implements OnInit {
 
   async LoadData() {
     // this.loadingServ.present();
-    this.entity = { responderID: this.entityService.userId }
+    let user: any = JSON.parse(localStorage.getItem('user'));
+    this.entity = { responderID: user.data.id }
     await this.entityService.post(`donationRequest`, this.entity).catch((err: HttpErrorResponse) => {
       this.loadingServ.dismiss();
       if (err.status == 401) {

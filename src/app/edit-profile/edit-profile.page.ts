@@ -71,7 +71,8 @@ export class EditProfilePage extends Base implements OnInit {
 
   async LoadData() {
     this.loadingServ.present();
-    await this.entityService.findById(`Member`, this.entityService.userId).catch((err: HttpErrorResponse) => {
+    let user: any = JSON.parse(localStorage.getItem('user'));
+    await this.entityService.findById(`Member`, user.data.id).catch((err: HttpErrorResponse) => {
       this.loadingServ.dismiss();
       if (err.status == 401) {
         localStorage.clear();

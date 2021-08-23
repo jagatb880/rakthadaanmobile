@@ -23,6 +23,9 @@ export class EntityService {
   baseUrl: string = 'http://202.153.37.85/sevaBharati/'; // dev live
   baseUrlMaster: string = 'http://202.153.37.85/masters/';
 
+  // baseUrl: string = 'http://rakthadaanbharathi.org/sevaBharati/';
+  // baseUrlMaster: string = 'http://rakthadaanbharathi.org/masters/';
+
 
   isLoggedIn = false;
   token: any; tenant = ''; jwt = ''; userId = 0; userName = ''; upgradeReq: boolean = false;
