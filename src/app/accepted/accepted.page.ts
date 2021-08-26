@@ -258,8 +258,10 @@ export class AcceptedPage extends Base implements OnInit {
   }
 
   getGender(id: string){
-    let a = this.master.GenderMaster.filter(data=> data.id == id)
-    return a[0].name;
+    if(id!=null){
+      let a = this.master.GenderMaster.filter(data=> data.id == id)
+      return a[0].name;
+    }
   }
 
 }

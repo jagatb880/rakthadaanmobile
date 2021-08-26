@@ -20,11 +20,11 @@ import { LoadingService } from './loader.service';
 export class EntityService {
   // baseUrl: string = 'http://rakthadaanbharathi.org/sevaBharati/'; //'http://182.18.157.28:9818/sevaBharati/'; // live
   // baseUrl: string = 'http://192.168.20.185:9818/sevaBharati/'; // dev
-  baseUrl: string = 'http://202.153.37.85/sevaBharati/'; // dev live
-  baseUrlMaster: string = 'http://202.153.37.85/masters/';
+  // baseUrl: string = 'http://202.153.37.85/sevaBharati/'; // dev live
+  // baseUrlMaster: string = 'http://202.153.37.85/masters/';
 
-  // baseUrl: string = 'http://rakthadaanbharathi.org/sevaBharati/';
-  // baseUrlMaster: string = 'http://rakthadaanbharathi.org/masters/';
+  baseUrl: string = 'http://rakthadaanbharathi.org/sevaBharati/';
+  baseUrlMaster: string = 'http://rakthadaanbharathi.org/masters/';
 
 
   isLoggedIn = false;
