@@ -71,6 +71,7 @@ export class SuggestionPage extends Base implements OnInit {
 
   async LoadData() {
     if (this.online) {
+      debugger;
     let user: any = JSON.parse(localStorage.getItem('user'));
    // let userId = JSON.parse(localStorage.getItem('user')).data.roles == 'Admin' ? '' : `/${JSON.parse(localStorage.getItem('user')).data.id}`;
    let userId = user.data.roles == 'Admin' ? '' : `/${user.data.id}`;

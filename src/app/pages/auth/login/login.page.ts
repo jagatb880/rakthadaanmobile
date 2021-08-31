@@ -14,6 +14,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { PlasmaRegistrationPage } from 'src/app/plasma-registration/plasma-registration.page';
 import { PlasmaTermsPage } from 'src/app/plasma-terms/plasma-terms.page';
 import { AppVersion } from '@ionic-native/app-version';
+import { WebIntent } from '@ionic-native/web-intent/ngx';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,7 @@ export class LoginPage implements OnInit {
   timePeriodToExit = 2000;
   subscription: any; stateList = []; tent = ''; online: boolean = true;
   isOtpShow: boolean = true; pass = ''; userName = ''; otp = ''; isTimerStart: boolean = false;
-  mobilePattern = "^([+][9][1]|[9][1]|[0]){0,1}([6-9]{1})([0-9]{9})$"; rakthadaanAppVersion: any = '1.2.11';
+  mobilePattern = "^([+][9][1]|[9][1]|[0]){0,1}([6-9]{1})([0-9]{9})$"; rakthadaanAppVersion: any = '1.2.12';
   state_Id='';
   // appVersion = new AppVersion();
   constructor(
@@ -43,6 +44,7 @@ export class LoginPage implements OnInit {
     public loadingServ: LoadingService,
     public alertController: AlertController,
     public network: Network,
+    private webIntent: WebIntent,
   ) {
 
     this.loginForm = this.fb.group({
@@ -83,6 +85,12 @@ export class LoginPage implements OnInit {
       this.loginForm.patchValue({stateID:this.state_Id});
     }
 
+    this.platform.resume.subscribe(() => {
+
+      this.checkAppStatus(); //i am calling this method while app running in background or sleep
+      
+      });
+
     // this.appVersion.getVersionCode().then(version => {
     //   this.rakthadaanAppVersion = version;
     // });
@@ -93,6 +101,30 @@ export class LoginPage implements OnInit {
 
   get f() { return this.loginForm.controls; }
 
+  checkAppStatus(){
+    this.webIntent.getIntent().then(async (intent: any) => {
+      if(intent.extras != undefined){
+        console.log(intent.extras.loginData)
+        let userStatus: any = await JSON.parse(localStorage.getItem('user'));
+        debugger
+        if(userStatus == undefined){
+          let data:any = {
+            data: JSON.parse(intent.extras.loginData)
+          }
+          localStorage.setItem('user', JSON.stringify(data));
+          let user = JSON.parse(localStorage.getItem('user'));
+          this.entityService.jwt = user.data.jwt;
+          this.entityService.userId = user.data.id;
+          this.entityService.tenant = localStorage.getItem('tenant');
+          this.entityService.getToken();
+        }
+      }
+    },
+    err => {
+      console.log('Error', err);
+    });
+
+  }
   ionViewWillEnter() {
     if (this.online)
       this.LoadStates(),this.loginForm.patchValue({stateID:this.state_Id});

@@ -16,7 +16,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Network } from '@ionic-native/network/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Location } from '@angular/common';
+import { WebIntent } from '@ionic-native/web-intent/ngx';
 
+declare var intentShim: any
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -89,7 +91,8 @@ export class AppComponent implements OnInit {
     private socialSharing: SocialSharing,
     private location: Location,
     private popoverController: PopoverController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private webIntent: WebIntent,
   ) {
     this.initializeApp();
     this.getContactDetails();
@@ -111,22 +114,82 @@ export class AppComponent implements OnInit {
           }
         });
         this.backButtonEvent();
+        this.webIntent.getIntent().then(async (intent: any) => {
+          if(intent.extras != undefined){
+            console.log(intent.extras.loginData)
+            let userStatus: any = await JSON.parse(localStorage.getItem('user'));
+            debugger
+            if(userStatus == undefined){
+              let data:any = {
+                data: JSON.parse(intent.extras.loginData)
+              }
+              localStorage.setItem('user', JSON.stringify(data));
+              let user = JSON.parse(localStorage.getItem('user'));
+              this.entityService.jwt = user.data.jwt;
+              this.entityService.userId = user.data.id;
+              this.entityService.tenant = localStorage.getItem('tenant');
+              this.entityService.getToken();
+            }else{
+              debugger;
+              let exsitingMobileNo = userStatus.data.mobile;
+              let parseData = JSON.parse(intent.extras.loginData)
+              let currentMobileNo = parseData.mobile
+              if(exsitingMobileNo != currentMobileNo)
+              {
+                const alert = await this.alertController.create({
+                  message: "You have already loged in different account: "+ exsitingMobileNo +". Please logout and try with this account: "+currentMobileNo,
+                  buttons: [
+                    {
+                      text: 'Cancel',
+                      role: 'cancel',
+                      cssClass: 'secondary',
+                      handler: (blah) => {
+                        console.log('Confirm Cancel: blah');
+                      }
+                    }, {
+                      text: 'Okay',
+                      handler: () => {
+                        this.logout()
+                      }
+                    }
+                  ]
+                });
+                await alert.present();
+              }
+            }
+          }
+        },
+        err => {
+          console.log('Error', err);
+        });
+        // (<any>window).plugins.intentShim.getIntent(
+        // function (intent) {
+        //   alert("hi2")
+        //   alert("h2intent"+JSON.stringify(intent));
+        //   alert("h2getIntent() :" + JSON.stringify(intent.extras));
+        // },
+        // function () {
+        //   alert('Error getting intent');
+        // });
     });
   }
 
   logout() {
+    this.loadingServ.present();
     this.entityService.SaveNotificationID('').then(() => {
     localStorage.clear()
     this.entityService.logout().subscribe(
       data => {
         // this.alertService.presentToast(data['message']);
+        this.loadingServ.dismiss();
         this.navCtrl.navigateRoot('/login');
       },
       error => {
-        console.log(error);
+        this.loadingServ.dismiss();
         this.navCtrl.navigateRoot('/login');
       },
       () => {
+        this.loadingServ.dismiss();
         this.navCtrl.navigateRoot('/login'); //landing
       }
     );

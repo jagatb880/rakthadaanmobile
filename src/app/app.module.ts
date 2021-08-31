@@ -28,7 +28,8 @@ import { SearchPipe } from './pages/suggestions/search.pipe';
 import { LoginPageModule } from 'src/app/pages/auth/login/login.module';
 import { RequestPageRoutingModule } from 'src/app/pages/request/request-routing.module';
 import { AddSuggestionPageModule } from 'src/app/pages/suggestions/add-suggestion/add-suggestion.module';
-import { PlasmaTermsPageModule } from "src/app/plasma-terms/plasma-terms.module"
+import { PlasmaTermsPageModule } from "src/app/plasma-terms/plasma-terms.module";
+import { WebIntent } from '@ionic-native/web-intent/ngx';
 
 @NgModule({
   declarations: [AppComponent, SearchPipe],
@@ -49,7 +50,8 @@ import { PlasmaTermsPageModule } from "src/app/plasma-terms/plasma-terms.module"
   ],
   providers: [DatePipe, StatusBar, SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    NativeStorage, NavController, LoadingService, AppVersion, Market, Network, FCM, SocialSharing
+    NativeStorage, NavController, LoadingService, AppVersion, Market, Network, FCM, SocialSharing,
+    WebIntent
   ],
   bootstrap: [AppComponent]
 })
